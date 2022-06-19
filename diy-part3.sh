@@ -15,4 +15,4 @@
 
 # Add a feed source
 git clone https://github.com/sdhz153/redsocks2.git package/redsocks2
-git clone https://github.com/sdhz153/luci-app-openclash.git package/luci-app-openclash
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
