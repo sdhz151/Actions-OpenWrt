@@ -21,3 +21,4 @@ svn co https://github.com/kenzok8/small-package/trunk/ipt2socks package/ipt2sock
 svn co https://github.com/kenzok8/small-package/trunk/microsocks package/microsocks
 svn co https://github.com/kenzok8/small-package/trunk/dns2socks package/dns2socks
 svn co https://github.com/kenzok8/small-package/trunk/redsocks2 package/redsocks2
+svn co https://github.com/kenzok8/small-package/trunk/pdnsd-alt package/pdnsd-alt
