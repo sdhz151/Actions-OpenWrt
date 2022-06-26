@@ -14,5 +14,5 @@
 #sed -i 's/^#\(.*helloworld\)/\1/' feeds.conf.default
 
 # Add a feed source
-git clone https://github.com/sdhz153/redsocks2.git package/redsocks2
+svn co https://github.com/kenzok8/small-package/trunk/redsocks2 package/redsocks2
 svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash package/luci-app-openclash
