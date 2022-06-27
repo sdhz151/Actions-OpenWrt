@@ -26,8 +26,6 @@ env:
   CONFIG_FILE: config/x86/openwrt-21.02/.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  DIY_P3_SH: diy-part3.sh
-  DIY_P4_SH: diy-part7.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -70,25 +68,20 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
-    - name: Load custom feeds openclash
-      run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P3_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P3_SH
-
-    - name: Load custom feeds
-      run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
-        chmod +x $DIY_P4_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P4_SH
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
+
+    - name: delete package
+      id: delete
+      run: |
+        cd openwrt
+        sudo rm -rf feeds/luci/applications/luci-app-smartdns
+        sudo rm -rf package/feeds/luci/luci-app-smartdns
+        sudo rm -rf /feeds/packages/net/smartdns
+        sudo rm -rf package/feeds/packages/smartdns
 
     - name: Load custom configuration
       run: |
