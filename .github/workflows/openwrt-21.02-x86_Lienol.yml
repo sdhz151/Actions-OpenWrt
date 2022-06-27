@@ -24,7 +24,9 @@ env:
   REPO_BRANCH: 21.02
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: config/x86/Lienol/.config
-  DIY_P1_SH: diy-part5.sh
+  DIY_P1_SH: diy-part1.sh
+  DIY_P3_SH: diy-part3.sh
+  DIY_P7_SH: diy-part7.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
@@ -67,6 +69,20 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
+
+    - name: Load custom feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P3_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P3_SH
+
+    - name: Load custom feeds
+      run: |
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P7_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P7_SH
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
