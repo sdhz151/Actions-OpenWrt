@@ -1,0 +1,65 @@
+From e11614792c79b964326dca52bec83fd5a54169eb Mon Sep 17 00:00:00 2001
+From: sdhz151 <yanghui140@gmail.com>
+Date: Thu, 6 Mar 2025 11:38:12 +0800
+Subject: [PATCH] Update Makefile
+
+---
+ lang/golang/golang/Makefile | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/feeds/packages/lang/golang/golang/Makefile b/feeds/packages/lang/golang/golang/Makefile
+index b00ea85..8bfbfcb 100644
+--- a/feeds/packages/lang/golang/golang/Makefile
++++ b/feeds/packages/lang/golang/golang/Makefile
+@@ -7,8 +7,8 @@
+ 
+ include $(TOPDIR)/rules.mk
+ 
+-GO_VERSION_MAJOR_MINOR:=1.23
+-GO_VERSION_PATCH:=7
++GO_VERSION_MAJOR_MINOR:=1.24
++GO_VERSION_PATCH:=1
+ 
+ PKG_NAME:=golang
+ PKG_VERSION:=$(GO_VERSION_MAJOR_MINOR)$(if $(GO_VERSION_PATCH),.$(GO_VERSION_PATCH))
+@@ -20,7 +20,7 @@ GO_SOURCE_URLS:=https://dl.google.com/go/ \
+ 
+ PKG_SOURCE:=go$(PKG_VERSION).src.tar.gz
+ PKG_SOURCE_URL:=$(GO_SOURCE_URLS)
+-PKG_HASH:=7cfabd46b73eb4c26b19d69515dd043d7183a6559acccd5cfdb25eb6b266a458
++PKG_HASH:=8244ebf46c65607db10222b5806aeb31c1fcf8979c1b6b12f60c677e9a3c0656
+ 
+ PKG_MAINTAINER:=Jeffery To <jeffery.to@gmail.com>
+ PKG_LICENSE:=BSD-3-Clause
+@@ -72,9 +72,9 @@ HOST_GO_VALID_OS_ARCH:= \
+   \
+   openbsd_mips64
+ 
+-BOOTSTRAP_SOURCE:=go1.4-bootstrap-20171003.tar.gz
++BOOTSTRAP_SOURCE:=go1.22.6.src.tar.gz
+ BOOTSTRAP_SOURCE_URL:=$(GO_SOURCE_URLS)
+-BOOTSTRAP_HASH:=f4ff5b5eb3a3cae1c993723f3eab519c5bae18866b5e5f96fe1102f0cb5c3e52
++BOOTSTRAP_HASH:=9e48d99d519882579917d8189c17e98c373ce25abaebb98772e2927088992a51
+ 
+ BOOTSTRAP_BUILD_DIR:=$(HOST_BUILD_DIR)/.go_bootstrap
+ 
+@@ -89,15 +89,15 @@ BOOTSTRAP_GO_VALID_OS_ARCH:= \
+                  solaris_amd64 \
+   windows_386    windows_amd64
+ 
+-BOOTSTRAP_1_17_SOURCE:=go1.17.13.src.tar.gz
++BOOTSTRAP_1_17_SOURCE:=go1.22.6.src.tar.gz
+ BOOTSTRAP_1_17_SOURCE_URL:=$(GO_SOURCE_URLS)
+-BOOTSTRAP_1_17_HASH:=a1a48b23afb206f95e7bbaa9b898d965f90826f6f1d1fc0c1d784ada0cd300fd
++BOOTSTRAP_1_17_HASH:=9e48d99d519882579917d8189c17e98c373ce25abaebb98772e2927088992a51
+ 
+ BOOTSTRAP_1_17_BUILD_DIR:=$(HOST_BUILD_DIR)/.go_bootstrap_1.17
+ 
+-BOOTSTRAP_1_20_SOURCE:=go1.20.14.src.tar.gz
++BOOTSTRAP_1_20_SOURCE:=go1.23.6.src.tar.gz
+ BOOTSTRAP_1_20_SOURCE_URL:=$(GO_SOURCE_URLS)
+-BOOTSTRAP_1_20_HASH:=1aef321a0e3e38b7e91d2d7eb64040666cabdcc77d383de3c9522d0d69b67f4e
++BOOTSTRAP_1_20_HASH:=039c5b04e65279daceee8a6f71e70bd05cf5b801782b6f77c6e19e2ed0511222
+ 
+ BOOTSTRAP_1_20_BUILD_DIR:=$(HOST_BUILD_DIR)/.go_bootstrap_1.20
+ 
