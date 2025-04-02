@@ -182,6 +182,7 @@ jobs:
       run: |
         cd openwrt
         git apply $GITHUB_WORKSPACE/patches/1.24.0.patch
+        sed -i "s/DEPENDS:=+libev +libsodium +libopenssl +libpthread +libpcre +libudns +zlib +libopenssl-legacy/DEPENDS:=+libev +libsodium +libopenssl +libpthread +libpcre2 +libudns +zlib +libopenssl-legacy/" ./package/helloworld/shadowsocksr-libev/Makefile
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
