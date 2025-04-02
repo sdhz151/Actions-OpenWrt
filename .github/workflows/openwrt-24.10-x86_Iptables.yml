@@ -81,6 +81,7 @@ jobs:
         git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
         git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
         git clone https://github.com/fw876/helloworld.git -b main package/helloworld
+        sed -i "s/DEPENDS:=+libev +libsodium +libopenssl +libpthread +libpcre +libudns +zlib +libopenssl-legacy/DEPENDS:=+libev +libsodium +libopenssl +libpthread +libpcre2 +libudns +zlib +libopenssl-legacy/" ./package/helloworld/shadowsocksr-libev/Makefile
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
@@ -182,7 +183,6 @@ jobs:
       run: |
         cd openwrt
         git apply $GITHUB_WORKSPACE/patches/1.24.0.patch
-        sed -i "s/DEPENDS:=+libev +libsodium +libopenssl +libpthread +libpcre +libudns +zlib +libopenssl-legacy/DEPENDS:=+libev +libsodium +libopenssl +libpthread +libpcre2 +libudns +zlib +libopenssl-legacy/" ./package/helloworld/shadowsocksr-libev/Makefile
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
