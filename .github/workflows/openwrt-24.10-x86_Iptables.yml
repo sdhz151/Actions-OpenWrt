@@ -117,6 +117,28 @@ jobs:
        echo "net/vlmcsd" >> .git/info/sparse-checkout
        git pull --depth 1 origin openwrt-24.10
 
+    - name: Add shadowsocks-libev
+      run: |
+       cd openwrt
+       mkdir -p package/shadowsocks-libev
+       cd package/shadowsocks-libev
+       git init
+       git remote add origin https://github.com/openwrt/packages.git
+       git config core.sparsecheckout true
+       echo "net/shadowsocks-libev" >> .git/info/sparse-checkout
+       git pull --depth 1 origin openwrt-23.05
+
+    - name: Add app luci-app-shadowsocks-libev
+      run: |
+       cd openwrt
+       mkdir -p feeds/luci/applications/luci-app-shadowsocks-libev
+       cd feeds/luci/applications/luci-app-shadowsocks-libev
+       git init
+       git remote add origin https://github.com/openwrt/luci.git
+       git config core.sparsecheckout true
+       echo "applications/luci-app-shadowsocks-libev" >> .git/info/sparse-checkout
+       git pull --depth 1 origin openwrt-23.05
+
     - name: Soft connection
       id: soft
       run: |
@@ -129,6 +151,13 @@ jobs:
        mv package/vlmcsd/net/vlmcsd/* package/vlmcsd
        rm -rf package/vlmcsd/net
        rm -rf package/vlmcsd/.git
+       mv feeds/luci/applications/luci-app-shadowsocks-libev/applications/luci-app-shadowsocks-libev/* feeds/luci/applications/luci-app-shadowsocks-libev
+       rm -rf feeds/luci/applications/luci-app-shadowsocks-libev/applications
+       rm -rf feeds/luci/applications/luci-app-shadowsocks-libev/.git
+       ln -sf ../../../feeds/luci/applications/luci-app-shadowsocks-libev package/feeds/luci/luci-app-shadowsocks-libev
+       mv package/shadowsocks-libev/net/shadowsocks-libev/* package/shadowsocks-libev
+       rm -rf package/shadowsocks-libev/net
+       rm -rf package/shadowsocks-libev/.git
 
     - name: Load custom configuration
       run: |
