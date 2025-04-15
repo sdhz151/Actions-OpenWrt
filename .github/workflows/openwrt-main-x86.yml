@@ -82,6 +82,7 @@ jobs:
         git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
         git clone https://github.com/immortalwrt/homeproxy.git -b master package/homeproxy
         git clone https://github.com/sdhz151/openwrt-tcp-brutal.git package/brutal
+        git clone -b main https://github.com/xiaorouji/openwrt-passwall-packages.git package/passwall
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
