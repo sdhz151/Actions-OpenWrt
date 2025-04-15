@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: openwrt-24.10-x86
+name: openwrt-main-x86
 
 on:
  repository_dispatch:
@@ -23,9 +23,9 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt.git
-  REPO_BRANCH: openwrt-24.10
+  REPO_BRANCH: main
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: config/x86/nftables-24.10.config
+  CONFIG_FILE: config/x86/main.config
  # CONFIG_URL: https://raw.githubusercontent.com/sdhz153/Actions-OpenWrt/main/config/x86/openwrt-23.05/nftables.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -96,7 +96,7 @@ jobs:
        git remote add origin https://github.com/immortalwrt/luci.git
        git config core.sparsecheckout true
        echo "applications/luci-app-vlmcsd" >> .git/info/sparse-checkout
-       git pull --depth 1 origin openwrt-24.10
+       git pull --depth 1 origin master
 
     - name: Add vlmcsd
       id: vlmcsd
@@ -108,35 +108,25 @@ jobs:
        git remote add origin https://github.com/immortalwrt/packages.git
        git config core.sparsecheckout true
        echo "net/vlmcsd" >> .git/info/sparse-checkout
-       git pull --depth 1 origin openwrt-24.10
+       git pull --depth 1 origin master
 
-    - name: update golang
+    - name: Add sing-box
+      id: singbox
       run: |
        cd openwrt
-       rm -rf feeds/packages/lang/golang/*
-       rm -rf package/feeds/packages/golang
-       cd feeds/packages/lang/golang
+       mkdir -p package/singbox
+       cd package/singbox
        git init
-       git remote add origin https://github.com/openwrt/packages.git
+       git remote add origin https://github.com/immortalwrt/packages.git
        git config core.sparsecheckout true
-       echo "lang/golang" >> .git/info/sparse-checkout
+       echo "net/sing-box" >> .git/info/sparse-checkout
        git pull --depth 1 origin master
 
     - name: Merge duplicates
       run: |
         cd openwrt
-        rm -rf package/feeds/packages/microsocks
-        rm -rf feeds/packages/net/microsocks
-        rm -rf package/feeds/packages/sing-box
-        rm -rf feeds/packages/net/sing-box
-        rm -rf package/feeds/packages/trojan-go
-        rm -rf feeds/packages/net/trojan-go
-        rm -rf package/feeds/packages/v2ray-core
-        rm -rf feeds/packages/net/v2ray-core
-        rm -rf package/feeds/packages/v2ray-geodata
         rm -rf feeds/packages/net/v2ray-geodata
-        rm -rf package/feeds/packages/xray-core
-        rm -rf feeds/packages/net/xray-core
+        rm -rf feeds/packages/net/sing-box/*
 
     - name: Soft connection
       id: soft
@@ -150,10 +140,8 @@ jobs:
        mv package/vlmcsd/net/vlmcsd/* package/vlmcsd
        rm -rf package/vlmcsd/net
        rm -rf package/vlmcsd/.git
-       rsync -a feeds/packages/lang/golang/lang/golang/* feeds/packages/lang/golang
-       rm -rf feeds/packages/lang/golang/lang
-       rm -rf feeds/packages/lang/golang/.git
-       ln -sf ../../../feeds/packages/lang/golang package/feeds/packages/golang
+       rsync -a package/singbox/net/sing-box/* feeds/packages/net/sing-box
+       rm -rf package/singbox
 
     - name: Load custom configuration
       run: |
@@ -171,10 +159,8 @@ jobs:
            echo "==================="
         fi
         chmod +x $DIY_P2_SH
-        chmod +x passwall.config.sh
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        $GITHUB_WORKSPACE/passwall.config.sh
 
   #  - name: apply patches
   #    run: |
@@ -206,7 +192,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        echo "FILE_DATE=_$(date +"24.10-nftables"-"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "FILE_DATE=_$(date +"main-nftables"-"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Check space usage
       if: (!cancelled())
@@ -257,7 +243,7 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=$(date +"%Y.%m.%d-%H%M"-"openwrt-24.10-nftables")" >> $GITHUB_OUTPUT
+        echo "release_tag=$(date +"%Y.%m.%d-%H%M"-"openwrt-main-nftables")" >> $GITHUB_OUTPUT
         touch release.txt
         [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
