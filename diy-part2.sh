@@ -59,3 +59,6 @@ fi
 # 添加编译日期
 sed -i 's/IMG_PREFIX:=/IMG_PREFIX:=$(BUILD_DATE_PREFIX)-/g' ./include/image.mk
 sed -i '/DTS_DIR:=$(LINUX_DIR)/a\BUILD_DATE_PREFIX := $(shell date +'%F')' ./include/image.mk
+# BBR
+echo 'net.core.default_qdisc=fq' >>package/base-files/files/etc/sysctl.conf
+echo 'net.ipv4.tcp_congestion_control=bbr' >>package/base-files/files/etc/sysctl.conf
