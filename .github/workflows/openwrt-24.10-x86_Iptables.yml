@@ -79,6 +79,7 @@ jobs:
       run: |
         cd openwrt
         git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
+        git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
         git clone https://github.com/fw876/helloworld.git -b master package/helloworld
 
     - name: Install feeds
@@ -90,6 +91,7 @@ jobs:
         rm -rf feeds/packages/net/microsocks
         rm -rf feeds/packages/net/v2ray-core
         rm -rf feeds/packages/net/xray-core
+        rm -rf feeds/packages/net/v2ray-geodata
 
     - name: Add app vlmcsd
       id: appvlmcsd
