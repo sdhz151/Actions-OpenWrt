@@ -164,6 +164,7 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
+        git apply $GITHUB_WORKSPACE/patches/bbr3.patch
 
   #  - name: apply patches
   #    run: |
