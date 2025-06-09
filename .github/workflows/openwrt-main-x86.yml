@@ -157,12 +157,11 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        git apply $GITHUB_WORKSPACE/patches/bbr3.patch
 
-  #  - name: apply patches
-  #    run: |
-  #      cd openwrt
-  #      git apply $GITHUB_WORKSPACE/patches/1.24.0.patch
+    - name: apply patches
+      run: |
+        cd openwrt
+        git apply $GITHUB_WORKSPACE/patches/bbr3.patch
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
