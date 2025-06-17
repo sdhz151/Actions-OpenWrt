@@ -165,6 +165,7 @@ jobs:
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
         git apply $GITHUB_WORKSPACE/patches/bbr3.patch
+        git apply $GITHUB_WORKSPACE/patches/BBRv3-diag-information.patch
 
   #  - name: apply patches
   #    run: |
