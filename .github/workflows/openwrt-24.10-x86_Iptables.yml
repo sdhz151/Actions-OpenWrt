@@ -92,6 +92,8 @@ jobs:
         rm -rf feeds/packages/net/v2ray-core
         rm -rf feeds/packages/net/xray-core
         rm -rf feeds/packages/net/v2ray-geodata
+        rm -rf feeds/packages/net/v2raya
+        rm -rf package/helloworld/mosdns
 
     - name: Add app vlmcsd
       id: appvlmcsd
