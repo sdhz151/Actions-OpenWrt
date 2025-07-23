@@ -42,7 +42,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@v4
 
     - name: Initialization environment
       env:
@@ -73,7 +73,11 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
+      run: |
+       cd openwrt
+       sed -i 's/git.openwrt.org\/feed/github.com\/openwrt/g' feeds.conf.default
+       sed -i 's/git.openwrt.org\/project/github.com\/openwrt/g' feeds.conf.default
+       ./scripts/feeds update -a
 
     - name: mosdns
       run: |
