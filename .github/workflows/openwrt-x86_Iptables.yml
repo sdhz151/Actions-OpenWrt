@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: X86_openwrt-24.10_Iptables
+name: X86_openwrt_Iptables
 
 on:
  repository_dispatch:
@@ -93,6 +93,7 @@ jobs:
     - name: Merge duplicates
       run: |
         cd openwrt
+        rm -rf feeds/packages/net/dnsproxy
         rm -rf feeds/packages/net/microsocks
         rm -rf feeds/packages/net/v2ray-core
         rm -rf feeds/packages/net/xray-core
