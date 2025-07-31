@@ -1,0 +1,77 @@
+From 2d7eb5f09dbf55d30896027892c0eaa198a623dd Mon Sep 17 00:00:00 2001
+From: sdhz151 <sdhz151@localhost.localdomain>
+Date: Thu, 31 Jul 2025 10:58:04 +0800
+Subject: [PATCH] Revert "rust: update to 1.87.0"
+
+This reverts commit 250ba60c52b7aad10d8247599a269e1c13e9294f.
+---
+ feeds/packages/lang/rust/Makefile                            |  7 +++--
+ .../0003-bump-libc-deps-to-0.2.146.patch      | 30 +++++++++++++++++++
+ 2 files changed, 34 insertions(+), 3 deletions(-)
+ create mode 100644 feeds/packages/lang/rust/patches/0003-bump-libc-deps-to-0.2.146.patch
+
+diff --git a/feeds/packages/lang/rust/Makefile b/feeds/packages/lang/rust/Makefile
+index 290a2fb78b..f63c5a5a8a 100644
+--- a/feeds/packages/lang/rust/Makefile
++++ b/feeds/packages/lang/rust/Makefile
+@@ -5,12 +5,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=rust
+-PKG_VERSION:=1.87.0
++PKG_VERSION:=1.85.0
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.gz
+ PKG_SOURCE_URL:=https://static.rust-lang.org/dist/
+-PKG_HASH:=149bb9fd29be592da4e87900fc68f0629a37bf6850b46339dd44434c04fd8e76
++PKG_HASH:=2f4f3142ffb7c8402139cfa0796e24baaac8b9fd3f96b2deec3b94b4045c6a8a
+ HOST_BUILD_DIR:=$(BUILD_DIR)/host/rustc-$(PKG_VERSION)-src
+ 
+ PKG_MAINTAINER:=Luca Barbato <lu_zero@luminem.org>
+@@ -90,7 +90,8 @@ define Host/Compile
+ 	TARGET_CFLAGS="$(TARGET_CFLAGS)" \
+ 	$(PYTHON) $(HOST_BUILD_DIR)/x.py \
+ 		--build-dir $(HOST_BUILD_DIR)/build \
+-		dist build-manifest rustc rust-std cargo llvm-tools rust-src
++		--config $(HOST_BUILD_DIR)/config.toml \
++		dist build-manifest cargo llvm-tools rustc rust-std rust-src
+ endef
+ 
+ define Host/Install
+diff --git a/feeds/packages/lang/rust/patches/0003-bump-libc-deps-to-0.2.146.patch b/feeds/packages/lang/rust/patches/0003-bump-libc-deps-to-0.2.146.patch
+new file mode 100644
+index 0000000000..06ffb70a31
+--- /dev/null
++++ b/feeds/packages/lang/rust/patches/0003-bump-libc-deps-to-0.2.146.patch
+@@ -0,0 +1,30 @@
++This patch bumps all libc dependencies and checksums to 0.2.147, which includes the fix for musl 1.2.4.
++
++--- a/vendor/elasticlunr-rs-3.0.2/Cargo.lock
+++++ b/vendor/elasticlunr-rs-3.0.2/Cargo.lock
++@@ -555,9 +555,9 @@ checksum = "e2abad23fbc42b3700f2f279844d
++ 
++ [[package]]
++ name = "libc"
++-version = "0.2.140"
+++version = "0.2.147"
++ source = "registry+https://github.com/rust-lang/crates.io-index"
++-checksum = "99227334921fae1a979cf0bfdfcc6b3e5ce376ef57e16fb6fb3ea2ed6095f80c"
+++checksum = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
++ 
++ [[package]]
++ name = "lindera"
++--- a/vendor/libffi-3.2.0/Cargo.lock
+++++ b/vendor/libffi-3.2.0/Cargo.lock
++@@ -10,9 +10,9 @@ checksum = "50d30906286121d95be3d479533b
++ 
++ [[package]]
++ name = "libc"
++-version = "0.2.140"
+++version = "0.2.147"
++ source = "registry+https://github.com/rust-lang/crates.io-index"
++-checksum = "99227334921fae1a979cf0bfdfcc6b3e5ce376ef57e16fb6fb3ea2ed6095f80c"
+++checksum = "b4668fb0ea861c1df094127ac5f1da3409a82116a4ba74fca2e58ef927159bb3"
++ 
++ [[package]]
++ name = "libffi"
