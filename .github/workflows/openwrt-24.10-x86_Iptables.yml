@@ -154,6 +154,11 @@ jobs:
        rm -rf feeds/packages/lang/golang/.git
        ln -sf ../../../feeds/packages/lang/golang package/feeds/packages/golang
 
+    - name: rust 1.85.0
+      run: |
+       cd openwrt/feeds/packages
+       git reset c3a98403cb18af45fbb526975d0b5b297d63aec1
+
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
