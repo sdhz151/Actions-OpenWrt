@@ -8,12 +8,12 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: X86_openwrt-24.10_Iptables
+name: X86_openwrt-main_Iptables
 
 on:
  repository_dispatch:
  schedule:
-    - cron: 0 23 * * *
+    - cron: 15 23 * * *
  workflow_dispatch:
     inputs:
       ssh:
@@ -23,9 +23,9 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt.git
-  REPO_BRANCH: openwrt-24.10
+  REPO_BRANCH: main
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: config/x86/Iptables-24.10.config
+  CONFIG_FILE: config/x86/Iptables-main.config
  # CONFIG_URL: https://raw.githubusercontent.com/sdhz153/Actions-OpenWrt/main/config/x86/openwrt-23.05/Iptables.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
@@ -125,18 +125,6 @@ jobs:
        echo "net/vlmcsd" >> .git/info/sparse-checkout
        git pull --depth 1 origin master
 
-    - name: update golang
-      run: |
-       cd openwrt
-       rm -rf feeds/packages/lang/golang/*
-       rm -rf package/feeds/packages/golang
-       cd feeds/packages/lang/golang
-       git init
-       git remote add origin https://github.com/openwrt/packages.git
-       git config core.sparsecheckout true
-       echo "lang/golang" >> .git/info/sparse-checkout
-       git pull --depth 1 origin master
-
     - name: Soft connection
       id: soft
       run: |
@@ -149,10 +137,6 @@ jobs:
        mv package/vlmcsd/net/vlmcsd/* package/vlmcsd
        rm -rf package/vlmcsd/net
        rm -rf package/vlmcsd/.git
-       rsync -a feeds/packages/lang/golang/lang/golang/* feeds/packages/lang/golang
-       rm -rf feeds/packages/lang/golang/lang
-       rm -rf feeds/packages/lang/golang/.git
-       ln -sf ../../../feeds/packages/lang/golang package/feeds/packages/golang
 
     - name: Load custom configuration
       run: |
@@ -206,7 +190,7 @@ jobs:
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
-        echo "FILE_DATE=_$(date +"24.10-Iptables"-"%Y%m%d%H%M")" >> $GITHUB_ENV
+        echo "FILE_DATE=_$(date +"main-Iptables"-"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Check space usage
       if: (!cancelled())
@@ -257,7 +241,7 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       run: |
-        echo "release_tag=$(date +"%Y.%m.%d-%H%M"-"openwrt-24.10-Iptables")" >> $GITHUB_OUTPUT
+        echo "release_tag=$(date +"%Y.%m.%d-%H%M"-"openwrt-main-Iptables")" >> $GITHUB_OUTPUT
         touch release.txt
         [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
@@ -278,7 +262,7 @@ jobs:
       with:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
-     #   delete_workflow_pattern: X86_openwrt-24.10_Iptables
+     #   delete_workflow_pattern: X86_openwrt-main_Iptables
         retain_days: 0
         keep_minimum_runs: 1
 

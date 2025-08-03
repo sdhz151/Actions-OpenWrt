@@ -1,0 +1,22 @@
+From b59bd072a8f0080f765a9bc1d219d112e3581c46 Mon Sep 17 00:00:00 2001
+From: Luca Barbato <lu_zero@gentoo.org>
+Date: Sat, 31 May 2025 14:55:41 +0000
+Subject: [PATCH] rust: Make sure bootstrap does not try to guess it is in the
+ upstream CI environment
+
+---
+ lang/rust/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/feeds/packages/lang/rust/Makefile b/feeds/packages/lang/rust/Makefile
+index 290a2fb78b..2f8e845f6c 100644
+--- a/feeds/packages/lang/rust/Makefile
++++ b/feeds/packages/lang/rust/Makefile
+@@ -89,6 +89,7 @@ define Host/Compile
+ 	CARGO_HOME=$(CARGO_HOME) \
+ 	TARGET_CFLAGS="$(TARGET_CFLAGS)" \
+ 	$(PYTHON) $(HOST_BUILD_DIR)/x.py \
++		--ci false \
+ 		--build-dir $(HOST_BUILD_DIR)/build \
+ 		dist build-manifest rustc rust-std cargo llvm-tools rust-src
+ endef
