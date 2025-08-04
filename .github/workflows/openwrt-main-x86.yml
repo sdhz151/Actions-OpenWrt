@@ -138,6 +138,7 @@ jobs:
        mv package/vlmcsd/net/vlmcsd/* package/vlmcsd
        rm -rf package/vlmcsd/net
        rm -rf package/vlmcsd/.git
+       sed -i 's/0daa66c27aa917db13b26d444f04d73ea16925ef021405f5dd6e11ff9f9d034f/a5b9854a7cb2055fa2c7890ee196a7fbbec1fd6165bf5115504d160e2e3a7a19/g' package/vlmcsd/Makefile
        rm -rf feeds/packages/net/v2ray-geodata
        rm -rf feeds/packages/net/sing-box/*
        rsync -a package/singbox/net/sing-box/* feeds/packages/net/sing-box
