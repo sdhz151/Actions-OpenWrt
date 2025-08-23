@@ -87,9 +87,6 @@ jobs:
         git clone https://github.com/fw876/helloworld.git -b master package/helloworld
         git clone https://github.com/sdhz151/openwrt-tcp-brutal.git package/brutal
 
-    - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a
-
     - name: Merge duplicates
       run: |
         cd openwrt
@@ -100,6 +97,10 @@ jobs:
         rm -rf feeds/packages/net/v2ray-geodata
         rm -rf feeds/packages/net/v2raya
         rm -rf package/helloworld/mosdns
+        rm -rf tmp
+
+    - name: Install feeds
+      run: cd openwrt && ./scripts/feeds update -a && ./scripts/feeds install -a
 
     - name: Add app vlmcsd
       id: appvlmcsd
