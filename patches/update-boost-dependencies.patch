@@ -1,0 +1,92 @@
+From 3c298759b1f6b73632c5f9c5ace61ca0556e6015 Mon Sep 17 00:00:00 2001
+From: Florian Eckert <fe@dev.tdt.de>
+Date: Tue, 2 Sep 2025 12:51:49 +0200
+Subject: [PATCH] domoticz: update boost dependencies
+
+domoticz only links to boost headers since boost version update to '1.89.0'.
+Remove 'boost-system' from the dependencies and add boost as build
+dependency.
+
+Signed-off-by: Florian Eckert <fe@dev.tdt.de>
+---
+ utils/domoticz/Makefile | 5 ++---
+ net/kea/Makefile | 5 ++---
+ net/i2pd/Makefile | 5 ++---
+ 3 file changed, 6 insertions(+), 9 deletions(-)
+
+diff --git a/feeds/packages/utils/domoticz/Makefile b/feeds/packages/utils/domoticz/Makefile
+index aa50e7f1b6..5a56fbb6ab 100644
+--- a/feeds/packages/utils/domoticz/Makefile
++++ b/feeds/packages/utils/domoticz/Makefile
+@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=domoticz
+ PKG_VERSION:=2023.2
+-PKG_RELEASE:=1
++PKG_RELEASE:=2
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=https://codeload.github.com/domoticz/domoticz/tar.gz/$(PKG_VERSION)?
+@@ -20,7 +20,7 @@ PKG_LICENSE:=GPL-3.0
+ PKG_LICENSE_FILES:=License.txt
+ PKG_CPE_ID:=cpe:/a:domoticz:domoticz
+ 
+-PKG_BUILD_DEPENDS:=python3 minizip cereal
++PKG_BUILD_DEPENDS:=python3 minizip cereal boost
+ PKG_BUILD_FLAGS:=no-mips16 lto
+ 
+ include $(INCLUDE_DIR)/package.mk
+@@ -35,7 +35,6 @@ define Package/domoticz
+   DEPENDS:= \
+ 	+boost \
+ 	+boost-date_time \
+-	+boost-system \
+ 	+boost-thread \
+ 	+jsoncpp \
+ 	+libcurl \
+diff --git a/feeds/packages/net/kea/Makefile b/feeds/packages/net/kea/Makefile
+index bddff25daf..74ed2e7846 100644
+--- a/feeds/packages/net/kea/Makefile
++++ b/feeds/packages/net/kea/Makefile
+@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=kea
+ PKG_VERSION:=2.6.4
+-PKG_RELEASE:=1
++PKG_RELEASE:=2
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=https://ftp.isc.org/isc/kea/$(PKG_VERSION)
+@@ -64,8 +64,7 @@ endef
+ define Package/kea-libs
+ 	$(call Package/kea/Default)
+ 	TITLE+=Libraries
+-	DEPENDS:=+libopenssl +log4cplus \
+-	+boost +boost-system
++	DEPENDS:=+libopenssl +log4cplus +boost
+ endef
+ define Package/kea-libs/description
+ 		Kea required Libraries.
+diff --git a/feeds/packages/net/i2pd/Makefile b/feeds/packages/net/i2pd/Makefile
+index 7ddf2b66d2..fc352277ee 100644
+--- a/feeds/packages/net/i2pd/Makefile
++++ b/feeds/packages/net/i2pd/Makefile
+@@ -11,7 +11,7 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=i2pd
+ PKG_VERSION:=2.55.0
+-PKG_RELEASE:=1
++PKG_RELEASE:=2
+ PKG_BUILD_PARALLEL:=1
+ 
+ PKG_SOURCE_PROTO:=git
+@@ -29,8 +29,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/i2pd
+ 	SECTION:=net
+ 	CATEGORY:=Network
+-	DEPENDS:=+libopenssl +boost +boost-system \
+-	         +boost-program_options +libatomic +zlib
++	DEPENDS:=+libopenssl +boost +boost-program_options +libatomic +zlib
+ 	TITLE:=full-featured C++ implementation of I2P client
+ 	URL:=https://github.com/PurpleI2P/i2pd
+ 	USERID:=i2pd:i2pd
