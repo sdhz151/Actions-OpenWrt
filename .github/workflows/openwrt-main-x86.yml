@@ -85,8 +85,8 @@ jobs:
         git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
         git clone https://github.com/sbwml/v2ray-geodata package/v2ray-geodata
         git clone https://github.com/immortalwrt/homeproxy.git -b master package/homeproxy
-        git clone https://github.com/haruue-net/openwrt-tcp-brutal.git package/brutal
-        sed -i 's/0c7f5581da3bc5726bfd36a1f4863f77ca9a2684449d4b1d416577557b3d6f92/2b666b71de07256449b3e967da63f48fdb0c1146194d8deaf7edb20a82a99811/g' package/brutal/kernel/tcp-brutal/Makefile
+        git clone https://github.com/sdhz151/openwrt-app package/app
+
 
     - name: Add sing-box
       id: singbox
@@ -100,10 +100,25 @@ jobs:
        echo "net/sing-box" >> .git/info/sparse-checkout
        git pull --depth 1 origin master
 
+    - name: Add app vlmcsd
+      id: appvlmcsd
+      run: |
+       cd openwrt
+       mkdir -p feeds/luci/applications/luci-app-vlmcsd
+       cd feeds/luci/applications/luci-app-vlmcsd
+       git init
+       git remote add origin https://github.com/immortalwrt/luci.git
+       git config core.sparsecheckout true
+       echo "applications/luci-app-vlmcsd" >> .git/info/sparse-checkout
+       git pull --depth 1 origin master
+
     - name: Soft connection
       id: soft
       run: |
        cd openwrt
+       mv package/app/brutal package
+       mv package/app/vlmcsd package
+       rm -rf package/app
        rm -rf tmp
        rm -rf feeds/packages/net/v2ray-geodata
        rm -rf feeds/packages/net/sing-box/*
