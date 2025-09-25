@@ -106,6 +106,7 @@ jobs:
        mv package/app/brutal package
        mv package/app/vlmcsd package
        mv package/app/luci-app-vlmcsd feeds/luci/applications
+       mkdir -p package/feeds/luci
        ln -sf ../../../feeds/luci/applications/luci-app-vlmcsd package/feeds/luci/luci-app-vlmcsd
        rm -rf package/app
        rm -rf tmp
