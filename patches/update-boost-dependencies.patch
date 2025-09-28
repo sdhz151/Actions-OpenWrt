@@ -74,7 +74,7 @@ index 7ddf2b66d2..fc352277ee 100644
 @@ -11,7 +11,7 @@ include $(TOPDIR)/rules.mk
  
  PKG_NAME:=i2pd
- PKG_VERSION:=2.55.0
+ PKG_VERSION:=2.58.0
 -PKG_RELEASE:=1
 +PKG_RELEASE:=2
  PKG_BUILD_PARALLEL:=1
