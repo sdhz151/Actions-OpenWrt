@@ -23,7 +23,7 @@ on:
 
 env:
   REPO_URL: https://github.com/openwrt/openwrt.git
-  REPO_BRANCH: main
+  REPO_BRANCH: openwrt-25.12
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: config/x86/nftables-main.config
  # CONFIG_URL: https://raw.githubusercontent.com/sdhz153/Actions-OpenWrt/main/config/x86/openwrt-23.05/nftables.config
