@@ -108,8 +108,7 @@ jobs:
         cd openwrt
         git apply $GITHUB_WORKSPACE/patches/bbr3.patch
         git apply $GITHUB_WORKSPACE/patches/BBRv3-diag-information.patch
-        git apply $GITHUB_WORKSPACE/patches/update-boost-dependencies.patch
-
+        
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
