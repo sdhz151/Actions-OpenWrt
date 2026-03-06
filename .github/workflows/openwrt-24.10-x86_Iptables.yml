@@ -12,8 +12,8 @@ name: X86_openwrt-24.10_Iptables
 
 on:
  repository_dispatch:
- schedule:
-    - cron: 0 23 * * *
+# schedule:
+#    - cron: 0 23 * * *
  workflow_dispatch:
     inputs:
       ssh:
@@ -175,7 +175,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
         git apply $GITHUB_WORKSPACE/patches/bbr3.patch
         git apply $GITHUB_WORKSPACE/patches/BBRv3-diag-information.patch
-        git apply $GITHUB_WORKSPACE/patches/UpdateRust.patch
+        git apply $GITHUB_WORKSPACE/patches/llvm-download-ci-llvm-set-to-false.patch
 
   #  - name: apply patches
   #    run: |
