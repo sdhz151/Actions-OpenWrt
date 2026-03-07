@@ -12,8 +12,8 @@ name: X86_openwrt-24.10_Iptables
 
 on:
  repository_dispatch:
- schedule:
-    - cron: 0 23 * * *
+# schedule:
+#    - cron: 0 23 * * *
  workflow_dispatch:
     inputs:
       ssh:
@@ -100,7 +100,7 @@ jobs:
         rm -rf tmp
 
     - name: Install feeds
-      run: cd openwrt && ./scripts/feeds update -a && ./scripts/feeds install -a
+      run: cd openwrt && ./scripts/feeds install -a
 
     - name: Add app vlmcsd
       id: appvlmcsd
@@ -175,7 +175,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
         git apply $GITHUB_WORKSPACE/patches/bbr3.patch
         git apply $GITHUB_WORKSPACE/patches/BBRv3-diag-information.patch
-        git apply $GITHUB_WORKSPACE/patches/UpdateRust.patch
+        git apply $GITHUB_WORKSPACE/patches/llvm-download-ci-llvm-set-to-false.patch
 
   #  - name: apply patches
   #    run: |
@@ -202,8 +202,9 @@ jobs:
       id: compile
       run: |
         cd openwrt
+        export CCACHE_MAXSIZE=5G
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        make -j$(nproc) CCACHE=1 || make -j1 CCACHE=1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
